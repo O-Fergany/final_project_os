@@ -14,18 +14,20 @@ int sbuffer_init(sbuffer_t **buffer) {
 }
 int sbuffer_free(sbuffer_t **buffer) {
     if (buffer ==NULL || *buffer ==NULL)return -1;
-    pthread_mutex_destroy(&(*buffer)->lock);
-    pthread_cond_destroy(&(*buffer)->readable);
-    sbuffer_node_t *curr = (*buffer)->head;
-    while (curr !=NULL) {
-        sbuffer_node_t *next = curr->next;
+
+    while ((*buffer) ->head) {
+        sbuffer_node_t *curr = (*buffer)->head;
+        (*buffer)->head=(*buffer)->head->next;
         free(curr);
-        curr = next;
     }
     free(*buffer);
+    buffer =NULL;
+    pthread_mutex_destroy(&(*buffer)->lock);
+    pthread_cond_destroy(&(*buffer)->readable);
     return 0;
 }
 int sbuffer_add(sbuffer_t *buffer, sensor_data_t *data) {
+    if (buffer==NULL) return-1;
     sbuffer_node_t *new_node = malloc(sizeof(sbuffer_node_t));
     if (new_node==NULL) return -1;
     new_node-> data = *data;
@@ -44,7 +46,7 @@ int sbuffer_add(sbuffer_t *buffer, sensor_data_t *data) {
     pthread_mutex_unlock(&((buffer)->lock));
     return 0;
 }
-int sbuffer_remove(sbuffer_t *buffer, sensor_data_t *data) {
+int sbuffer_remove(sbuffer_t *buffer, sensor_data_t *data, int reader_id) {
     if (buffer == NULL) return -1;
     pthread_mutex_lock(&(buffer->lock));
 
@@ -55,6 +57,7 @@ int sbuffer_remove(sbuffer_t *buffer, sensor_data_t *data) {
     sbuffer_node_t *node_to_read = buffer->head;
 
     *data = node_to_read->data;
+    if (reader_id == 1 )access
     node_to_read->read_count++;
 
     if (node_to_read->read_count == 2) {

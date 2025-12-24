@@ -8,7 +8,7 @@
 typedef struct sbuffer_node {
     sensor_data_t data;
     struct sbuffer_node *next;
-    int read_count;
+    int acess_check;
 }
 sbuffer_node_t;
 typedef struct sbuffer {
