@@ -6,21 +6,25 @@
 #include "sbuffer.h"
 
 extern int write_to_log_process(char *msg);
+
 static FILE *db_fp = NULL;
 
 int storage_init() {
     db_fp = fopen("data.csv", "w");
-    if (db_fp == NULL) return -1;
+    if (db_fp == NULL) {
+        return -1;
+    }
     write_to_log_process("A new data.csv file has been created.");
     return 0;
 }
 
 int storage_insert(sensor_data_t *data) {
-    if (db_fp == NULL || data == NULL) return -1;
-    if (fprintf(db_fp, "%hu, %f, %ld\n", data->id, data->value, (long)data->ts) > 0) {
+    if (db_fp != NULL) {
+        fprintf(db_fp, "%hu, %f, %ld\n", data->id, data->value, (long)data->ts);
         fflush(db_fp);
+
         char msg[256];
-        snprintf(msg, 256, "Data insertion from sensor %hu succeeded.", data->id); 
+        sprintf(msg, "Data insertion from sensor %hu succeeded.", data->id);
         write_to_log_process(msg);
         return 0;
     }
@@ -37,16 +41,17 @@ void storage_free() {
 
 void storage_process_buffer(sbuffer_t *buffer) {
     sensor_data_t data;
-    if (storage_init() != 0) return;
+    
+    if (storage_init() != 0) {
+        return;
+    }
 
-    while (1) {
-        int result = sbuffer_read_remove(buffer, &data, 2);
-
-        if (result == -1 || data.id == 0) {
-            printf("[DEBUG] Storagemgr: Received shutdown mark. Exiting thread.\n");
+    while (sbuffer_read_remove(buffer, &data, 2) == 0) {
+        if (data.id == 0) {
             break;
         }
         storage_insert(&data);
     }
+
     storage_free();
 }

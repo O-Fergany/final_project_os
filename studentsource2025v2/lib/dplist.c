@@ -20,12 +20,14 @@ dplist_t *dpl_create(
     void (*element_free)(void **),
     int (*element_compare)(void *, void *)
 ) {
-    dplist_t *list = malloc(sizeof(struct dplist));
-    assert(list != NULL);
+    dplist_t *list = (dplist_t *)malloc(sizeof(struct dplist));
+    assert(list != NULL); 
+    
     list->head = NULL;
     list->element_copy = element_copy;
     list->element_free = element_free;
     list->element_compare = element_compare;
+    
     return list;
 }
 
@@ -33,25 +35,29 @@ void dpl_free(dplist_t **list, bool free_element) {
     if (list == NULL || *list == NULL) return;
 
     dplist_node_t *curr = (*list)->head;
+    dplist_node_t *next;
+
     while (curr != NULL) {
-        dplist_node_t *next_node = curr->next;
-        if (free_element && (*list)->element_free != NULL) {
+        next = curr->next;
+        if (free_element == true && (*list)->element_free != NULL) {
             (*list)->element_free(&(curr->element));
         }
         free(curr);
-        curr = next_node;
+        curr = next;
     }
+    
     free(*list);
-    *list = NULL;
+    *list = NULL; 
 }
 
 int dpl_size(dplist_t *list) {
     if (list == NULL) return -1;
+    
     int count = 0;
-    dplist_node_t *curr = list->head;
-    while (curr != NULL) {
+    dplist_node_t *temp = list->head;
+    while (temp != NULL) {
         count++;
-        curr = curr->next;
+        temp = temp->next;
     }
     return count;
 }
@@ -59,33 +65,36 @@ int dpl_size(dplist_t *list) {
 dplist_t *dpl_insert_at_index(dplist_t *list, void *element, int index, bool insert_copy) {
     if (list == NULL) return NULL;
 
-    dplist_node_t *new_node = malloc(sizeof(dplist_node_t));
-    assert(new_node != NULL);
+    dplist_node_t *new_node = malloc(sizeof(struct dplist_node));
+    assert(new_node != NULL); 
 
-    if (insert_copy && list->element_copy) {
+    if (insert_copy == true && list->element_copy != NULL) {
         new_node->element = list->element_copy(element);
     } else {
         new_node->element = element;
     }
 
     if (list->head == NULL) {
-        new_node->prev = new_node->next = NULL;
+        new_node->prev = NULL;
+        new_node->next = NULL;
         list->head = new_node;
     } else if (index <= 0) {
-        new_node->prev = NULL;
         new_node->next = list->head;
+        new_node->prev = NULL;
         list->head->prev = new_node;
         list->head = new_node;
     } else {
         dplist_node_t *ref = dpl_get_reference_at_index(list, index);
-        if (index >= dpl_size(list)) { // Insert after the last element
-            new_node->next = NULL;
-            new_node->prev = ref;
+        if (index >= dpl_size(list)) {
             ref->next = new_node;
-        } else { // Insert before ref
+            new_node->prev = ref;
+            new_node->next = NULL;
+        } else {
             new_node->prev = ref->prev;
             new_node->next = ref;
-            ref->prev->next = new_node;
+            if (ref->prev != NULL) {
+                ref->prev->next = new_node;
+            }
             ref->prev = new_node;
         }
     }
@@ -93,57 +102,63 @@ dplist_t *dpl_insert_at_index(dplist_t *list, void *element, int index, bool ins
 }
 
 dplist_t *dpl_remove_at_index(dplist_t *list, int index, bool free_element) {
-    if (list == NULL || list->head == NULL) return list;
+    if (list == NULL) return NULL;
+    if (list->head == NULL) return list;
 
-    dplist_node_t *ref = dpl_get_reference_at_index(list, index);
+    dplist_node_t *to_remove = dpl_get_reference_at_index(list, index);
 
-    if (ref->prev == NULL) { // removing head
-        list->head = ref->next;
+    if (to_remove->prev == NULL) {
+        list->head = to_remove->next;
+        if (list->head != NULL) {
+            list->head->prev = NULL;
+        }
     } else {
-        ref->prev->next = ref->next;
+        to_remove->prev->next = to_remove->next;
+        if (to_remove->next != NULL) {
+            to_remove->next->prev = to_remove->prev;
+        }
     }
 
-    if (ref->next != NULL) {
-        ref->next->prev = ref->prev;
+    if (free_element == true && list->element_free != NULL) {
+        list->element_free(&(to_remove->element));
     }
-
-    if (free_element && list->element_free) {
-        list->element_free(&(ref->element));
-    }
-    free(ref);
+    
+    free(to_remove);
     return list;
 }
 
 dplist_node_t *dpl_get_reference_at_index(dplist_t *list, int index) {
     if (list == NULL || list->head == NULL) return NULL;
 
-    dplist_node_t *curr = list->head;
-    if (index <= 0) return curr;
+    dplist_node_t *dummy = list->head;
+    if (index <= 0) return dummy;
 
-    int i = 0;
-    while (curr->next != NULL && i < index) {
-        curr = curr->next;
-        i++;
+    for (int i = 0; i < index; i++) {
+        if (dummy->next == NULL) return dummy; 
+        dummy = dummy->next;
     }
-    return curr;
+    return dummy;
 }
 
 void *dpl_get_element_at_index(dplist_t *list, int index) {
-    dplist_node_t *ref = dpl_get_reference_at_index(list, index);
-    return (ref != NULL) ? ref->element : NULL;
+    if (list == NULL) return NULL;
+    dplist_node_t *res = dpl_get_reference_at_index(list, index);
+    if (res == NULL) return NULL;
+    return res->element;
 }
 
 int dpl_get_index_of_element(dplist_t *list, void *element) {
-    if (list == NULL || list->head == NULL) return -1;
+    if (list == NULL) return -1;
+    if (list->head == NULL) return -1;
 
-    dplist_node_t *curr = list->head;
-    int index = 0;
-    while (curr != NULL) {
-        if (list->element_compare(curr->element, element) == 0) {
-            return index;
+    dplist_node_t *current = list->head;
+    int pos = 0;
+    while (current != NULL) {
+        if (list->element_compare(current->element, element) == 0) {
+            return pos;
         }
-        curr = curr->next;
-        index++;
+        current = current->next;
+        pos++;
     }
     return -1;
 }
@@ -151,11 +166,11 @@ int dpl_get_index_of_element(dplist_t *list, void *element) {
 void *dpl_get_element_at_reference(dplist_t *list, dplist_node_t *reference) {
     if (list == NULL || reference == NULL || list->head == NULL) return NULL;
 
-    // Verify reference exists in this list
-    dplist_node_t *curr = list->head;
-    while (curr != NULL) {
-        if (curr == reference) return curr->element;
-        curr = curr->next;
+    dplist_node_t *check = list->head;
+    while (check != NULL) {
+        if (check == reference) return reference->element;
+        check = check->next;
     }
+    
     return NULL;
 }
