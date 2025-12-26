@@ -1,27 +1,26 @@
-0 2025-12-26 07:01:47 Gateway system started.
-1 2025-12-26 07:01:47 A new data.csv file has been created.
-2 2025-12-26 07:01:48 Sensor node 11 has opened a new connection
-3 2025-12-26 07:01:48 Data insertion from sensor 11 succeeded.
-4 2025-12-26 07:01:49 Data insertion from sensor 11 succeeded.
-5 2025-12-26 07:01:49 Sensor node 12 has opened a new connection
-6 2025-12-26 07:01:49 Data insertion from sensor 12 succeeded.
-7 2025-12-26 07:01:50 Data insertion from sensor 11 succeeded.
-8 2025-12-26 07:01:50 Data insertion from sensor 12 succeeded.
-9 2025-12-26 07:01:50 Sensor node 13 has opened a new connection
-10 2025-12-26 07:01:50 Data insertion from sensor 13 succeeded.
-11 2025-12-26 07:01:51 Data insertion from sensor 11 succeeded.
-12 2025-12-26 07:01:51 Data insertion from sensor 12 succeeded.
-13 2025-12-26 07:01:51 Data insertion from sensor 13 succeeded.
-14 2025-12-26 07:01:52 Data insertion from sensor 11 succeeded.
-15 2025-12-26 07:01:52 Data insertion from sensor 12 succeeded.
-16 2025-12-26 07:01:52 Data insertion from sensor 13 succeeded.
-17 2025-12-26 07:01:53 Sensor node 11 has closed the connection
-18 2025-12-26 07:01:53 Sensor node 12 reports it's too hot (avg temp = 20.313348)
-19 2025-12-26 07:01:53 Data insertion from sensor 12 succeeded.
-20 2025-12-26 07:01:53 Data insertion from sensor 13 succeeded.
-21 2025-12-26 07:01:54 Sensor node 12 has closed the connection
-22 2025-12-26 07:01:54 Sensor node 13 reports it's too hot (avg temp = 20.444042)
-23 2025-12-26 07:01:54 Data insertion from sensor 13 succeeded.
-24 2025-12-26 07:01:55 Sensor node 13 has closed the connection
-25 2025-12-26 07:01:55 The data.csv file has been closed.
-26 2025-12-26 07:01:55 Gateway system shutting down.
+0 2025-12-26 07:12:48 Gateway system started.
+1 2025-12-26 07:12:48 A new data.csv file has been created.
+2 2025-12-26 07:12:49 Sensor node 11 has opened a new connection
+3 2025-12-26 07:12:49 Data insertion from sensor 11 succeeded.
+4 2025-12-26 07:12:50 Data insertion from sensor 11 succeeded.
+5 2025-12-26 07:12:50 Sensor node 12 has opened a new connection
+6 2025-12-26 07:12:50 Data insertion from sensor 12 succeeded.
+7 2025-12-26 07:12:51 Data insertion from sensor 11 succeeded.
+8 2025-12-26 07:12:51 Data insertion from sensor 12 succeeded.
+9 2025-12-26 07:12:51 Sensor node 13 has opened a new connection
+10 2025-12-26 07:12:51 Data insertion from sensor 13 succeeded.
+11 2025-12-26 07:12:52 Data insertion from sensor 11 succeeded.
+12 2025-12-26 07:12:52 Data insertion from sensor 12 succeeded.
+13 2025-12-26 07:12:52 Data insertion from sensor 13 succeeded.
+14 2025-12-26 07:12:53 Data insertion from sensor 11 succeeded.
+15 2025-12-26 07:12:53 Sensor node 11 reports it's too hot (avg temp = 20.271229)
+16 2025-12-26 07:12:53 Data insertion from sensor 12 succeeded.
+17 2025-12-26 07:12:53 Data insertion from sensor 13 succeeded.
+18 2025-12-26 07:12:54 Sensor node 11 has closed the connection
+19 2025-12-26 07:12:54 Data insertion from sensor 12 succeeded.
+20 2025-12-26 07:12:54 Data insertion from sensor 13 succeeded.
+21 2025-12-26 07:12:55 Sensor node 12 has closed the connection
+22 2025-12-26 07:12:55 Data insertion from sensor 13 succeeded.
+23 2025-12-26 07:12:56 Sensor node 13 has closed the connection
+24 2025-12-26 07:12:56 The data.csv file has been closed.
+25 2025-12-26 07:12:56 Gateway system shutting down.
