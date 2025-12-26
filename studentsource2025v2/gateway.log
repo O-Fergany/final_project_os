@@ -1,26 +1,97 @@
-0 2025-12-26 07:12:48 Gateway system started.
-1 2025-12-26 07:12:48 A new data.csv file has been created.
-2 2025-12-26 07:12:49 Sensor node 11 has opened a new connection
-3 2025-12-26 07:12:49 Data insertion from sensor 11 succeeded.
-4 2025-12-26 07:12:50 Data insertion from sensor 11 succeeded.
-5 2025-12-26 07:12:50 Sensor node 12 has opened a new connection
-6 2025-12-26 07:12:50 Data insertion from sensor 12 succeeded.
-7 2025-12-26 07:12:51 Data insertion from sensor 11 succeeded.
-8 2025-12-26 07:12:51 Data insertion from sensor 12 succeeded.
-9 2025-12-26 07:12:51 Sensor node 13 has opened a new connection
-10 2025-12-26 07:12:51 Data insertion from sensor 13 succeeded.
-11 2025-12-26 07:12:52 Data insertion from sensor 11 succeeded.
-12 2025-12-26 07:12:52 Data insertion from sensor 12 succeeded.
-13 2025-12-26 07:12:52 Data insertion from sensor 13 succeeded.
-14 2025-12-26 07:12:53 Data insertion from sensor 11 succeeded.
-15 2025-12-26 07:12:53 Sensor node 11 reports it's too hot (avg temp = 20.271229)
-16 2025-12-26 07:12:53 Data insertion from sensor 12 succeeded.
-17 2025-12-26 07:12:53 Data insertion from sensor 13 succeeded.
-18 2025-12-26 07:12:54 Sensor node 11 has closed the connection
-19 2025-12-26 07:12:54 Data insertion from sensor 12 succeeded.
-20 2025-12-26 07:12:54 Data insertion from sensor 13 succeeded.
-21 2025-12-26 07:12:55 Sensor node 12 has closed the connection
-22 2025-12-26 07:12:55 Data insertion from sensor 13 succeeded.
-23 2025-12-26 07:12:56 Sensor node 13 has closed the connection
-24 2025-12-26 07:12:56 The data.csv file has been closed.
-25 2025-12-26 07:12:56 Gateway system shutting down.
+0 2025-12-26 09:05:26 Gateway system started.
+1 2025-12-26 09:05:26 A new data.csv file has been created.
+2 2025-12-26 09:05:27 Sensor node 11 has opened a new connection
+3 2025-12-26 09:05:27 Received sensor data with invalid sensor node ID 11
+4 2025-12-26 09:05:27 Data insertion from sensor 11 succeeded.
+5 2025-12-26 09:05:27 Sensor node 12 has opened a new connection
+6 2025-12-26 09:05:27 Sensor node 14 has opened a new connection
+7 2025-12-26 09:05:27 Sensor node 13 has opened a new connection
+8 2025-12-26 09:05:27 Sensor node 15 has opened a new connection
+9 2025-12-26 09:05:27 Received sensor data with invalid sensor node ID 12
+10 2025-12-26 09:05:27 Received sensor data with invalid sensor node ID 13
+11 2025-12-26 09:05:27 Received sensor data with invalid sensor node ID 15
+12 2025-12-26 09:05:27 Received sensor data with invalid sensor node ID 14
+13 2025-12-26 09:05:27 Data insertion from sensor 12 succeeded.
+14 2025-12-26 09:05:28 Data insertion from sensor 13 succeeded.
+15 2025-12-26 09:05:28 Data insertion from sensor 15 succeeded.
+16 2025-12-26 09:05:28 Data insertion from sensor 14 succeeded.
+17 2025-12-26 09:05:28 Data insertion from sensor 11 succeeded.
+18 2025-12-26 09:05:28 Received sensor data with invalid sensor node ID 11
+19 2025-12-26 09:05:28 Received sensor data with invalid sensor node ID 13
+20 2025-12-26 09:05:28 Data insertion from sensor 13 succeeded.
+21 2025-12-26 09:05:28 Data insertion from sensor 12 succeeded.
+22 2025-12-26 09:05:28 Received sensor data with invalid sensor node ID 12
+23 2025-12-26 09:05:28 Received sensor data with invalid sensor node ID 14
+24 2025-12-26 09:05:28 Data insertion from sensor 14 succeeded.
+25 2025-12-26 09:05:28 Data insertion from sensor 15 succeeded.
+26 2025-12-26 09:05:28 Received sensor data with invalid sensor node ID 15
+27 2025-12-26 09:05:29 Data insertion from sensor 11 succeeded.
+28 2025-12-26 09:05:29 Received sensor data with invalid sensor node ID 11
+29 2025-12-26 09:05:29 Data insertion from sensor 13 succeeded.
+30 2025-12-26 09:05:29 Received sensor data with invalid sensor node ID 13
+31 2025-12-26 09:05:29 Data insertion from sensor 12 succeeded.
+32 2025-12-26 09:05:29 Received sensor data with invalid sensor node ID 12
+33 2025-12-26 09:05:29 Received sensor data with invalid sensor node ID 14
+34 2025-12-26 09:05:29 Data insertion from sensor 14 succeeded.
+35 2025-12-26 09:05:29 Received sensor data with invalid sensor node ID 15
+36 2025-12-26 09:05:29 Data insertion from sensor 15 succeeded.
+37 2025-12-26 09:05:30 Received sensor data with invalid sensor node ID 15
+38 2025-12-26 09:05:30 Data insertion from sensor 15 succeeded.
+39 2025-12-26 09:05:30 Received sensor data with invalid sensor node ID 13
+40 2025-12-26 09:05:30 Data insertion from sensor 13 succeeded.
+41 2025-12-26 09:05:30 Data insertion from sensor 12 succeeded.
+42 2025-12-26 09:05:30 Received sensor data with invalid sensor node ID 12
+43 2025-12-26 09:05:30 Received sensor data with invalid sensor node ID 11
+44 2025-12-26 09:05:30 Data insertion from sensor 11 succeeded.
+45 2025-12-26 09:05:30 Received sensor data with invalid sensor node ID 14
+46 2025-12-26 09:05:30 Data insertion from sensor 14 succeeded.
+47 2025-12-26 09:05:32 Received sensor data with invalid sensor node ID 14
+48 2025-12-26 09:05:32 Data insertion from sensor 14 succeeded.
+49 2025-12-26 09:05:32 Received sensor data with invalid sensor node ID 15
+50 2025-12-26 09:05:32 Data insertion from sensor 15 succeeded.
+51 2025-12-26 09:05:32 Received sensor data with invalid sensor node ID 12
+52 2025-12-26 09:05:32 Data insertion from sensor 12 succeeded.
+53 2025-12-26 09:05:32 Received sensor data with invalid sensor node ID 13
+54 2025-12-26 09:05:32 Data insertion from sensor 13 succeeded.
+55 2025-12-26 09:05:32 Data insertion from sensor 11 succeeded.
+56 2025-12-26 09:05:32 Received sensor data with invalid sensor node ID 11
+57 2025-12-26 09:05:33 Received sensor data with invalid sensor node ID 15
+58 2025-12-26 09:05:33 Data insertion from sensor 15 succeeded.
+59 2025-12-26 09:05:33 Received sensor data with invalid sensor node ID 14
+60 2025-12-26 09:05:33 Data insertion from sensor 14 succeeded.
+61 2025-12-26 09:05:33 Received sensor data with invalid sensor node ID 13
+62 2025-12-26 09:05:33 Data insertion from sensor 13 succeeded.
+63 2025-12-26 09:05:33 Data insertion from sensor 12 succeeded.
+64 2025-12-26 09:05:33 Received sensor data with invalid sensor node ID 12
+65 2025-12-26 09:05:33 Received sensor data with invalid sensor node ID 11
+66 2025-12-26 09:05:33 Data insertion from sensor 11 succeeded.
+67 2025-12-26 09:05:34 Received sensor data with invalid sensor node ID 14
+68 2025-12-26 09:05:34 Data insertion from sensor 14 succeeded.
+69 2025-12-26 09:05:34 Data insertion from sensor 13 succeeded.
+70 2025-12-26 09:05:34 Received sensor data with invalid sensor node ID 13
+71 2025-12-26 09:05:34 Data insertion from sensor 12 succeeded.
+72 2025-12-26 09:05:34 Received sensor data with invalid sensor node ID 12
+73 2025-12-26 09:05:34 Received sensor data with invalid sensor node ID 15
+74 2025-12-26 09:05:34 Data insertion from sensor 15 succeeded.
+75 2025-12-26 09:05:34 Data insertion from sensor 11 succeeded.
+76 2025-12-26 09:05:34 Received sensor data with invalid sensor node ID 11
+77 2025-12-26 09:05:35 Received sensor data with invalid sensor node ID 14
+78 2025-12-26 09:05:35 Data insertion from sensor 14 succeeded.
+79 2025-12-26 09:05:35 Received sensor data with invalid sensor node ID 12
+80 2025-12-26 09:05:35 Data insertion from sensor 12 succeeded.
+81 2025-12-26 09:05:35 Received sensor data with invalid sensor node ID 15
+82 2025-12-26 09:05:35 Data insertion from sensor 15 succeeded.
+83 2025-12-26 09:05:35 Received sensor data with invalid sensor node ID 13
+84 2025-12-26 09:05:35 Data insertion from sensor 13 succeeded.
+85 2025-12-26 09:05:35 Data insertion from sensor 11 succeeded.
+86 2025-12-26 09:05:35 Received sensor data with invalid sensor node ID 11
+87 2025-12-26 09:05:36 Received sensor data with invalid sensor node ID 14
+88 2025-12-26 09:05:36 Data insertion from sensor 14 succeeded.
+89 2025-12-26 09:05:36 Received sensor data with invalid sensor node ID 12
+90 2025-12-26 09:05:36 Data insertion from sensor 12 succeeded.
+91 2025-12-26 09:05:36 Received sensor data with invalid sensor node ID 15
+92 2025-12-26 09:05:36 Data insertion from sensor 15 succeeded.
+93 2025-12-26 09:05:36 Received sensor data with invalid sensor node ID 13
+94 2025-12-26 09:05:36 Data insertion from sensor 13 succeeded.
+95 2025-12-26 09:05:36 Received sensor data with invalid sensor node ID 11
+96 2025-12-26 09:05:36 Data insertion from sensor 11 succeeded.

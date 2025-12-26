@@ -4,8 +4,6 @@
 #include <stdint.h>
 #include <time.h>
 
-
-// Forward declaration so all files can see the logger
 int write_to_log_process(char *msg);
 
 typedef uint16_t sensor_id_t;
