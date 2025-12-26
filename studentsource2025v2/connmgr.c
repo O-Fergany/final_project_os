@@ -16,59 +16,43 @@ void *handle_sensor_node(void *arg) {
     sensor_data_t data;
     int result, len;
     uint16_t current_id = 0;
+    int first_data = 1; 
 
     while (1) {
-        len = sizeof(data.id);
-        result = tcp_receive_timeout(session->socket, &data.id, &len, TIMEOUT);
-        if (result != TCP_NO_ERROR) {
-            printf("[DEBUG] Connmgr: tcp_receive (ID) failed with code %d for sensor %hu\n", result, current_id);
-            break;
-        }
+    // 1. Receive ID
+    len = sizeof(data.id);
+    result = tcp_receive_timeout(session->socket, &data.id, &len, TIMEOUT);
+    if (result != TCP_NO_ERROR || len <= 0) break; 
 
-        if (current_id == 0) {
-            current_id = data.id;
-            char msg[256];
-            snprintf(msg, 256, "Sensor node %hu has opened a new connection", current_id);
-            write_to_log_process(msg);
-        }
-
-        len = sizeof(data.value);
-        result = tcp_receive_timeout(session->socket, &data.value, &len, TIMEOUT);
-        if (result != TCP_NO_ERROR) {
-            printf("[DEBUG] Connmgr: tcp_receive (Value) failed for sensor %hu\n", current_id);
-            break;
-        }
-
-        len = sizeof(data.ts);
-        result = tcp_receive_timeout(session->socket, &data.ts, &len, TIMEOUT);
-        if (result != TCP_NO_ERROR) {
-            printf("[DEBUG] Connmgr: tcp_receive (TS) failed for sensor %hu\n", current_id);
-            break;
-        }
-
-        sbuffer_insert(session->buffer, &data);
+    // Log connection on the very first successful ID received
+    if (first_data) {
+        current_id = data.id;
+        char msg[256];
+        snprintf(msg, 256, "Sensor node %hu has opened a new connection", current_id);
+        write_to_log_process(msg);
+        first_data = 0;
     }
 
-    printf("[DEBUG] Connmgr: Thread for sensor %hu is EXITING the loop.\n", current_id);
+    // 2. Receive Value (ONLY ONCE)
+    len = sizeof(data.value);
+    result = tcp_receive_timeout(session->socket, &data.value, &len, TIMEOUT);
+    if (result != TCP_NO_ERROR || len <= 0) break; 
+    
+    // 3. Receive Timestamp (ONLY ONCE)
+    len = sizeof(data.ts);
+    result = tcp_receive_timeout(session->socket, &data.ts, &len, TIMEOUT);
+    if (result != TCP_NO_ERROR || len <= 0) break; 
+
+    // 4. Successfully received all 3 parts, now insert ONCE
+    sbuffer_insert(session->buffer, &data);
+}
 
     if (current_id != 0) {
         char log_out[256];
         snprintf(log_out, 256, "Sensor node %hu has closed the connection", current_id);
         write_to_log_process(log_out);
     }
-
-    tcp_close(&session->socket);
-    free(session);
-
-    pthread_mutex_lock(&count_lock);
-    active_sensor_threads--;
-    printf("[DEBUG] Connmgr: Decoupled thread. Active threads now: %d\n", active_sensor_threads);
-    pthread_mutex_unlock(&count_lock);
-    return NULL;
-}
-
-    printf("[DEBUG] Connmgr: Thread for sensor %hu exiting.\n", current_id);
-
+    
     tcp_close(&session->socket);
     free(session);
 
@@ -85,31 +69,25 @@ void connmgr_listen(int port, int max_conns, sbuffer_t *shared_buf) {
     int total_started_conns = 0;
     while (total_started_conns < max_conns) {
         tcpsock_t *client_sock;
-        printf("[DEBUG] Connmgr: Waiting for connection %d/%d...\n", total_started_conns + 1, max_conns);
         if (tcp_wait_for_connection(server, &client_sock) == TCP_NO_ERROR) {
-            printf("[DEBUG] Connmgr: Connection %d accepted.\n", total_started_conns + 1);
             session_t *session = malloc(sizeof(session_t));
             session->socket = client_sock;
             session->buffer = shared_buf;
-
+            
             pthread_mutex_lock(&count_lock);
             active_sensor_threads++;
             total_started_conns++;
             pthread_mutex_unlock(&count_lock);
-
+            
             pthread_t tid;
             pthread_create(&tid, NULL, handle_sensor_node, session);
             pthread_detach(tid);
         }
     }
 
-    int last_reported_count = -1;
+    // Wait for all sensor threads to finish before sending shutdown signal
     while (1) {
         pthread_mutex_lock(&count_lock);
-        if (active_sensor_threads != last_reported_count) {
-            printf("[DEBUG] Connmgr: Active threads remaining: %d\n", active_sensor_threads);
-            last_reported_count = active_sensor_threads;
-        }
         if (active_sensor_threads <= 0) {
             pthread_mutex_unlock(&count_lock);
             break;
@@ -118,10 +96,10 @@ void connmgr_listen(int port, int max_conns, sbuffer_t *shared_buf) {
         usleep(100000);
     }
 
-    printf("[DEBUG] Connmgr: All sensors disconnected. Inserting 2 shutdown marks.\n");
-    usleep(500000);
+    // Insert exactly ONE shutdown mark
     sensor_data_t shutdown_mark = {0, 0, 0};
+    printf("[DEBUG] Connmgr: All sensor threads finished. Inserting SHUTDOWN MARK.\n");
     sbuffer_insert(shared_buf, &shutdown_mark);
-    sbuffer_insert(shared_buf, &shutdown_mark);
+    
     tcp_close(&server);
 }

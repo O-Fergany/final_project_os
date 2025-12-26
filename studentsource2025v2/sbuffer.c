@@ -62,30 +62,30 @@ int sbuffer_insert(sbuffer_t *buffer, sensor_data_t *data) {
 int sbuffer_read_remove(sbuffer_t *buffer, sensor_data_t *data, int reader_id) {
     if (buffer == NULL) return -1;
     pthread_mutex_lock(&(buffer->lock));
-    sbuffer_node_t *node = NULL;
 
+    sbuffer_node_t *node = NULL;
     while ((node = find_node(buffer, reader_id)) == NULL) {
         pthread_cond_wait(&(buffer->readable), &(buffer->lock));
     }
 
     *data = node->data;
     node->access_check |= reader_id;
-
-    if (data->id == 0) {
-        printf("[DEBUG] Sbuffer: Reader %d RECEIVED SHUTDOWN MARK.\n", reader_id);
-    } else {
-        printf("[DEBUG] Sbuffer: Reader %d read ID %hu, New Mask: %d\n", reader_id, data->id, node->access_check);
-    }
-
     int is_end = (data->id == 0);
+
+    if (is_end) printf("[DEBUG] Sbuffer: Reader %d RECEIVED SHUTDOWN.\n", reader_id);
+    else printf("[DEBUG] Sbuffer: Reader %d read ID %hu, New Mask: %d\n", reader_id, data->id, node->access_check);
+
+    pthread_cond_broadcast(&(buffer->readable));
+
     while (buffer->head != NULL && buffer->head->access_check == 3) {
         sbuffer_node_t *temp = buffer->head;
-        printf("[DEBUG] Sbuffer: Fully read node ID %hu being DELETED from head.\n", temp->data.id);
+        printf("[DEBUG] Sbuffer: Fully read node ID %hu being DELETED.\n", temp->data.id);
         buffer->head = buffer->head->next;
         if (buffer->head == NULL) buffer->tail = NULL;
         free(temp);
+        pthread_cond_broadcast(&(buffer->readable));
     }
-    pthread_cond_broadcast(&(buffer->readable));
+    
     pthread_mutex_unlock(&(buffer->lock));
     return is_end ? -1 : 0;
 }
