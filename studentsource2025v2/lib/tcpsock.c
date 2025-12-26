@@ -59,7 +59,28 @@ struct tcpsock {
 };
 
 static tcpsock_t *tcp_sock_create();
+int tcp_receive_timeout(tcpsock_t *socket, void *buffer, int *buf_size, int timeout_sec) {
+    if (socket == NULL || socket->cookie != MAGIC_COOKIE) return TCP_SOCKET_ERROR;
 
+    fd_set rfds;
+    struct timeval tv;
+    int retval;
+
+    FD_ZERO(&rfds);
+    FD_SET(socket->sd, &rfds);
+
+    tv.tv_sec = timeout_sec;
+    tv.tv_usec = 0;
+
+    // Wait for data or timeout
+    retval = select(socket->sd + 1, &rfds, NULL, NULL, &tv);
+
+    if (retval == -1) return TCP_SOCKOP_ERROR;
+    if (retval == 0) return TCP_TIMED_OUT;
+
+    // Data is available, call the standard receive
+    return tcp_receive(socket, buffer, buf_size);
+}
 int tcp_passive_open(tcpsock_t **sock, int port) {
     int result;
     struct sockaddr_in addr;

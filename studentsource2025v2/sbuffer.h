@@ -29,4 +29,3 @@ int sbuffer_insert(sbuffer_t *buffer, sensor_data_t *data);
 int sbuffer_read_remove(sbuffer_t *buffer, sensor_data_t *data, int reader_id);
 
 #endif
-

@@ -14,7 +14,7 @@
 #define    TCP_SOCKOP_ERROR         3   // socket operator (socket, listen, bind, accept,...) error
 #define    TCP_CONNECTION_CLOSED    4   // send/receive indicate connection is closed
 #define    TCP_MEMORY_ERROR         5   // mem alloc error
-
+#define    TCP_TIMED_OUT            6
 #define MAX_PENDING 10
 
 typedef struct tcpsock tcpsock_t;
@@ -32,7 +32,7 @@ typedef struct tcpsock tcpsock_t;
  * \return TCP_NO_ERROR if no error occurs during execution
  */
 int tcp_passive_open(tcpsock_t **socket, int port);
-
+int tcp_receive_timeout(tcpsock_t *socket, void *buffer, int *buf_size, int timeout_sec);
 /**
  * Creates a new TCP socket and opens a TCP connection to the system with IP address 'remote_ip' on port 'remote_port'
  * The newly created socket is return as '*socket'

@@ -1,16 +1,17 @@
-/**
- * \author {AUTHOR}
- */
-
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
 #include <stdint.h>
 #include <time.h>
 
+
+// Forward declaration so all files can see the logger
+int write_to_log_process(char *msg);
+
 typedef uint16_t sensor_id_t;
+typedef uint16_t room_id_t;
 typedef double sensor_value_t;
-typedef time_t sensor_ts_t;         // UTC timestamp as returned by time() - notice that the size of time_t is different on 32/64 bit machine
+typedef time_t sensor_ts_t;
 
 typedef struct {
     sensor_id_t id;
@@ -18,4 +19,19 @@ typedef struct {
     sensor_ts_t ts;
 } sensor_data_t;
 
-#endif /* _CONFIG_H_ */
+#define MSG_LENGTH 256
+#define TIME_LENGTH 32
+
+#ifndef SET_MAX_TEMP
+#define SET_MAX_TEMP 25.0
+#endif
+
+#ifndef SET_MIN_TEMP
+#define SET_MIN_TEMP 15.0
+#endif
+
+#ifndef TIMEOUT
+#define TIMEOUT 10
+#endif
+
+#endif
